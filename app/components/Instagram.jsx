@@ -12,7 +12,7 @@ export default class Instagram extends React.Component {
 
 
 
-		fetch('https://api.instagram.com/oauth/authorize/?client_id=fc73027687a140a1b33dc906183889cb&redirect_uri=http://localhost:4000&response_type=token')
+		fetch('https://api.instagram.com/oauth/authorize/?client_id=fc73027687a140a1b33dc906183889cb&redirect_uri=http://funnycaption.herokuapp.com&response_type=token')
 		.then(function(response) {
 			console.log(response)
 			return response.json()
