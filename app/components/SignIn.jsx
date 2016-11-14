@@ -107,7 +107,7 @@ export default class SignIn extends React.Component {
 		return (
 			<div>
 				<img src={this.state.photoURL} width="100" height="60"/>
-				<button onClick={this.toggleSignIn}>{this.state.loggedIn}</button>
+				<button className="btn btn-primary" onClick={this.toggleSignIn}>{this.state.loggedIn}</button>
 			</div>
 		)
 		

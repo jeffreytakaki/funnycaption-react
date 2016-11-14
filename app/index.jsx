@@ -16,9 +16,8 @@ class Home extends React.Component {
   render () {
     return (
     	<div>
-    	<Nav />
-    	<App />
-	    	<p>home section</p>
+	    	<Nav />
+	    	<App />
     	</div>
     )
   }

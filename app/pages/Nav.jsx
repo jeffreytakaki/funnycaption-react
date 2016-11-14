@@ -5,19 +5,21 @@ export default class Nav extends React.Component {
 
 	constructor(props) {
 		super(props)		
-		this.handleAuth = this.handleAuth.bind(this);
-	}
-
-	handleAuth() {
-		console.log('sign in')
 	}
 
 	render() {
 		return (
-			<div>
-				<SignIn />
-				<button onClick={this.handleAuth}>Sign In</button>
-			</div>
+			<header>
+				<div className="container">
+					<div className="row">
+						<div className="col-md-3">FunnyCaption</div>
+						<div className="col-md-3"></div>
+						<div className="col-md-3"></div>
+						<div className="col-md-3"><SignIn /></div>
+					</div>
+				
+				</div>
+			</header>
 		)
 	}
 
