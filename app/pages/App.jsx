@@ -2,7 +2,6 @@ import React from 'react'
 import Nav from './Nav.jsx'
 import Food from '../components/Food.jsx'
 import RecipeItem from '../components/RecipeItem.jsx'
-import { Link } from 'react-router'
 
 export default class App extends React.Component {
 
@@ -11,34 +10,43 @@ export default class App extends React.Component {
 		this.state = {
 			recipes: []
 		}
+
+		this.renderRecipeItem = this.renderRecipeItem.bind(this)
 		
 	}
 
-	renderRecipeItem(recipe) {
-		this.setState({
-			recipes: this.state.recipes.concat([recipe])
-		})
+	renderRecipeItem(recipes) {
+		// clear recipes
+		this.state = {
+			recipes: []
+		}
 
+		this.setState({
+			recipes: recipes
+		})
 	}
 
 	render() {
 		let recipesitems = this.state.recipes.map((recipe, index) => {
+			var setbreak;
 			return (
 					<RecipeItem 
 					key = {index}
-					image_url = {recipe.image_url}
-					title = {recipe.title}
-					recipe_id = {recipe.recipe_id} 
-					source_url = {recipe.source_url}/>
-					
+					image = {recipe.recipe.image}
+					title = {recipe.recipe.label}
+					recipe_id = {recipe.recipe.label} 
+					url = {recipe.recipe.url}/>
 			)
 		})
-		
-		
+				
 		return (
 			<div>
-				<Food />
-				<RecipeItem />
+				<Food renderRecipeItem={this.renderRecipeItem}/>
+
+				<div className="container">
+
+				{recipesitems}
+				</div>	
 			</div>
 		)
 	}
