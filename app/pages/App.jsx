@@ -12,7 +12,20 @@ export default class App extends React.Component {
 		}
 
 		this.renderRecipeItem = this.renderRecipeItem.bind(this)
+		this.saveRecipe = this.saveRecipe.bind(this)
 		
+	}
+
+	componentWillMount() {
+		var config = {
+			apiKey: "AIzaSyC1I-eTkRWrTekurEs2tepEMxlaIQUTNkk",
+			authDomain: "save-recipe.firebaseapp.com",
+			databaseURL: "https://save-recipe.firebaseio.com",
+			storageBucket: "save-recipe.appspot.com",
+			messagingSenderId: "348011917644"
+		};
+		firebase.initializeApp(config);
+		var database = firebase.database();
 	}
 
 	renderRecipeItem(recipes) {
@@ -26,6 +39,18 @@ export default class App extends React.Component {
 		})
 	}
 
+	saveRecipe(saveObject) {
+		// can i refactor this?
+
+		database.ref('save-recipe/').push({
+			image: saveObject.image,
+			title: saveObject.title,
+			url: saveObject.url,
+			recipe_id: saveObject.recipe_id,
+		});		
+
+	}
+
 	render() {
 		let recipesitems = this.state.recipes.map((recipe, index) => {
 			var setbreak;
@@ -35,7 +60,8 @@ export default class App extends React.Component {
 					image = {recipe.recipe.image}
 					title = {recipe.recipe.label}
 					recipe_id = {recipe.recipe.label} 
-					url = {recipe.recipe.url}/>
+					url = {recipe.recipe.url}
+					saveRecipe={this.saveRecipe}/>
 			)
 		})
 				

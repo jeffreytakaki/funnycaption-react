@@ -1,4 +1,5 @@
 import React from 'react'
+import SessionButton from './SessionButton.jsx'
 
 export default class SignIn extends React.Component {
 
@@ -8,22 +9,23 @@ export default class SignIn extends React.Component {
 			uid: '',
 			displayName: '',
 			email: '',
-			loggedIn: 'Sign In'
+			isLoggedIn: false
 
 		}
 		this.toggleSignIn = this.toggleSignIn.bind(this)
 		this.saveUser = this.saveUser.bind(this)
+		this.handleLoginClick = this.handleLoginClick.bind(this)
+		this.handleLogoutClick = this.handleLogoutClick.bind(this)
 
-
-		var config = {
-			apiKey: "AIzaSyDl-d0I6Ofgk_xMi-F6FJwW944qGn7RbB8",
-			authDomain: "familyalbum-3553a.firebaseapp.com",
-			databaseURL: "https://familyalbum-3553a.firebaseio.com",
-			storageBucket: "familyalbum-3553a.appspot.com",
-			messagingSenderId: "272805338671"
-		};
-		firebase.initializeApp(config);
-		var database = firebase.database();
+		// var config = {
+		// 	apiKey: "AIzaSyDl-d0I6Ofgk_xMi-F6FJwW944qGn7RbB8",
+		// 	authDomain: "familyalbum-3553a.firebaseapp.com",
+		// 	databaseURL: "https://familyalbum-3553a.firebaseio.com",
+		// 	storageBucket: "familyalbum-3553a.appspot.com",
+		// 	messagingSenderId: "272805338671"
+		// };
+		// firebase.initializeApp(config);
+		// var database = firebase.database();
 	}
 
     toggleSignIn() {
@@ -36,12 +38,10 @@ export default class SignIn extends React.Component {
 				console.log(result)
 				var token = result.credential.accessToken;
 				var user = result.user;
-				document.cookie = ''
-				//return something back like  UID
-				//why isn't this working?
-				user.loggedIn = "Sign Out"
 				console.log(self)
 				self.saveUser(user)
+				self.handleLoginClick()
+
 				// database.ref('users').push({
 				// 	profilePhoto: user.photoURL,
 				// 	displayName: user.displayName,
@@ -80,7 +80,6 @@ export default class SignIn extends React.Component {
     saveUser(user) {
     	
 		this.setState({
-			loggedIn: user.loggedIn,
 			uid: user.uid,
 			photoURL: user.photoURL,
 			displayName: user.displayName,
@@ -92,22 +91,55 @@ export default class SignIn extends React.Component {
 		// need logic to only create new user if user hasn't already been created already. 
 		// use uid
 
-		database.ref('users').push({
-			profilePhoto: user.photoURL,
-			displayName: user.displayName,
-			email: user.email
-		});
+		// database.ref('users').push({
+		// 	profilePhoto: user.photoURL,
+		// 	displayName: user.displayName,
+		// 	email: user.email
+		// });
 
 
     }
+	// function LoginButton(props) {
+	// return (
+	// <button onClick={props.onClick}>
+	// Login
+	// </button>
+	// );
+	// }
+
+	// function LogoutButton(props) {
+	// return (
+	// <button onClick={props.onClick}>
+	// Logout
+	// </button>
+	// );
+	// }
+
+	handleLoginClick() {
+		this.setState({isLoggedIn: true});
+	}
+
+	handleLogoutClick() {
+		this.setState({isLoggedIn: false});
+	}
 
 
 	render() {
+		const isLoggedIn = this.state.isLoggedIn;
+
+		let button = null;
+		
+		// if (isLoggedIn) {
+		// 	button = <SessionButton onClick={this.handleLogoutClick} />
+		// } else {
+		// 	button = <SessionButton onClick={this.handleLogoutClick} />
+		// }
 		
 		return (
 			<div>
 				<img src={this.state.photoURL} width="100" height="60"/>
-				<button className="btn btn-primary" onClick={this.toggleSignIn}>{this.state.loggedIn}</button>
+				{button}
+				<button className="btn btn-primary" onClick={this.toggleSignIn}>Sign in</button>
 			</div>
 		)
 		
