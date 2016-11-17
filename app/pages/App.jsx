@@ -100,20 +100,21 @@ export default class App extends React.Component {
 
 				
 		return (
-			
 				<div className="container">
+					<div className="row search-container">
+						<div className="col-md-12">
+							<Food renderRecipeItem={this.renderRecipeItem} />
+						</div>	
+					</div>
 					<div className="row">
 						<div className="col-md-9">
-							<Food renderRecipeItem={this.renderRecipeItem}/>
-							<div className="container">
-								{recipesitems}
-							</div>	
+							{recipesitems}
 						</div>
 						<div className="col-md-3">
 							{saveditems}
 						</div>	
-					</div>	
-				</div>	
+					</div>		
+				</div>
 			
 		)
 	}

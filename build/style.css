@@ -20,3 +20,11 @@ img {
 .caption-limit-ingredients {
 	font-size: .75em;
 }
+
+.align-center {
+	text-align: center;
+}
+
+.search-container {
+	margin-bottom: 5%;
+}

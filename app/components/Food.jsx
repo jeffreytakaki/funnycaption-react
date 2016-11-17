@@ -54,19 +54,15 @@ export default class Food extends React.Component {
 		
 		return (
 			<div className="container">
-				<div className="row">
-					<div className="col-md-6">
-						<div className="row">
-						<div className="col-md-6">
-							<input className="recipe-lookup" placeholder="Look up ingredients" onChange={this.saveIngredients} value={this.state.ingredients}/>
-							<p className="caption-limit-ingredients">Search up to 3 ingredients, separated by commas</p>
-						</div>
-						<div className="col-md-6"></div>
-							<button className="btn btn-primary" onClick={this.getRecipe}>Log Recipe</button>
-						</div>
+				<div className="row align-center">
+					<div className="col-md-12">
+						<input className="recipe-lookup" placeholder="Look up ingredients" onChange={this.saveIngredients} value={this.state.ingredients}/>
+						<p className="caption-limit-ingredients">Search up to 3 ingredients, separated by commas</p>
 					</div>
-					<div className="col-md-6">
-						
+				</div>
+				<div className="row align-center">
+					<div className="col-md-12">
+						<button className="btn btn-primary" onClick={this.getRecipe}>Search Recipes</button>
 					</div>
 				</div>
 			</div>
