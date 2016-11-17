@@ -12,93 +12,82 @@ export default class SignIn extends React.Component {
 			isLoggedIn: false
 
 		}
-		this.toggleSignIn = this.toggleSignIn.bind(this)
-		this.saveUser = this.saveUser.bind(this)
-		this.handleLoginClick = this.handleLoginClick.bind(this)
-		this.handleLogoutClick = this.handleLogoutClick.bind(this)
 
-		// var config = {
-		// 	apiKey: "AIzaSyDl-d0I6Ofgk_xMi-F6FJwW944qGn7RbB8",
-		// 	authDomain: "familyalbum-3553a.firebaseapp.com",
-		// 	databaseURL: "https://familyalbum-3553a.firebaseio.com",
-		// 	storageBucket: "familyalbum-3553a.appspot.com",
-		// 	messagingSenderId: "272805338671"
-		// };
-		// firebase.initializeApp(config);
-		// var database = firebase.database();
+
+		// this.toggleSignIn = this.toggleSignIn.bind(this)
+		// this.saveUser = this.saveUser.bind(this)
+		// this.handleLoginClick = this.handleLoginClick.bind(this)
+		// this.handleLogoutClick = this.handleLogoutClick.bind(this)
+
 	}
 
-    toggleSignIn() {
-    	var self = this
+  //   toggleSignIn() {
+  //   	var self = this
 
-		if (!firebase.auth().currentUser) {
-			var provider = new firebase.auth.FacebookAuthProvider();
-			provider.addScope('user_birthday');
-			firebase.auth().signInWithPopup(provider).then(function(result) {
-				console.log(result)
-				var token = result.credential.accessToken;
-				var user = result.user;
-				console.log(self)
-				self.saveUser(user)
-				self.handleLoginClick()
+  //   	let firebase = this.props.firebase
+  //   	let database = this.props.database
 
-				// database.ref('users').push({
-				// 	profilePhoto: user.photoURL,
-				// 	displayName: user.displayName,
-				// 	email: user.email
-				// });
+
+		// if (!firebase.auth().currentUser) {
+		// 	var provider = new firebase.auth.FacebookAuthProvider();
+		// 	provider.addScope('user_birthday');
+		// 	firebase.auth().signInWithPopup(provider).then(function(result) {
+		// 		var token = result.credential.accessToken;
+		// 		var user = result.user;
+		// 		self.saveUser(user)
+		// 		self.handleLoginClick()
 				
-			}).catch(function(error) {
+		// 	}).catch(function(error) {
 				
-				var errorCode = error.code;
-				var errorMessage = error.message;
+		// 		var errorCode = error.code;
+		// 		var errorMessage = error.message;
 				
-				var email = error.email;
-				// The firebase.auth.AuthCredential type that was used.
-				var credential = error.credential;
-				// [START_EXCLUDE]
-				if (errorCode === 'auth/account-exists-with-different-credential') {
-					alert('You have already signed up with a different auth provider for that email.');
-					// If you are using multiple auth providers on your app you should handle linking
-					// the user's accounts here.
-				} else {
-					console.error(error);
-				}
-				// [END_EXCLUDE]
-			});
-		} else {
-			firebase.auth().signOut();
-		}
+		// 		var email = error.email;
+		// 		// The firebase.auth.AuthCredential type that was used.
+		// 		var credential = error.credential;
+		// 		// [START_EXCLUDE]
+		// 		if (errorCode === 'auth/account-exists-with-different-credential') {
+		// 			alert('You have already signed up with a different auth provider for that email.');
+		// 			// If you are using multiple auth providers on your app you should handle linking
+		// 			// the user's accounts here.
+		// 		} else {
+		// 			console.error(error);
+		// 		}
+		// 		// [END_EXCLUDE]
+		// 	});
+		// } else {
+		// 	firebase.auth().signOut();
+		// }
 		
-    }
-    // [END buttoncallback]
+  //   }
+  //   // [END buttoncallback]
 
-    toggleSignOut() {
-    	firebase.auth().signOut();
-    }
+  //   toggleSignOut() {
+  //   	firebase.auth().signOut();
+  //   }
 
-    saveUser(user) {
+  //   saveUser(user) {
     	
-		this.setState({
-			uid: user.uid,
-			photoURL: user.photoURL,
-			displayName: user.displayName,
-			email: user.email
-		})
-
-		console.log(this.state)
-
-		// need logic to only create new user if user hasn't already been created already. 
-		// use uid
-
-		// database.ref('users').push({
-		// 	profilePhoto: user.photoURL,
+		// this.setState({
+		// 	uid: user.uid,
+		// 	photoURL: user.photoURL,
 		// 	displayName: user.displayName,
 		// 	email: user.email
-		// });
+		// })
+
+		// console.log(this.state)
+
+		// // need logic to only create new user if user hasn't already been created already. 
+		// // use uid
+
+		// // database.ref('users').push({
+		// // 	profilePhoto: user.photoURL,
+		// // 	displayName: user.displayName,
+		// // 	email: user.email
+		// // });
 
 
-    }
+  //   }
 	// function LoginButton(props) {
 	// return (
 	// <button onClick={props.onClick}>
@@ -115,13 +104,13 @@ export default class SignIn extends React.Component {
 	// );
 	// }
 
-	handleLoginClick() {
-		this.setState({isLoggedIn: true});
-	}
+	// handleLoginClick() {
+	// 	this.setState({isLoggedIn: true});
+	// }
 
-	handleLogoutClick() {
-		this.setState({isLoggedIn: false});
-	}
+	// handleLogoutClick() {
+	// 	this.setState({isLoggedIn: false});
+	// }
 
 
 	render() {
@@ -137,9 +126,8 @@ export default class SignIn extends React.Component {
 		
 		return (
 			<div>
-				<img src={this.state.photoURL} width="100" height="60"/>
-				{button}
-				<button className="btn btn-primary" onClick={this.toggleSignIn}>Sign in</button>
+				<img src={this.props.user.photoURL} alt={this.props.user.displayName}/>
+				<button className="btn btn-primary" onClick={this.props.toggleSignIn}>Sign in</button>
 			</div>
 		)
 		

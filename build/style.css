@@ -1,3 +1,22 @@
 header {
     background-color: #c3e577;
 }
+
+header img {
+	width: 100px;
+	height: auto;
+}
+
+input.recipe-lookup {
+    height: 40px;
+}
+
+
+img {
+	width: 100%;
+	height: auto;
+}
+
+.caption-limit-ingredients {
+	font-size: .75em;
+}

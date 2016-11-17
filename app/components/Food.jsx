@@ -29,12 +29,6 @@ export default class Food extends React.Component {
 			console.log(res)
 			var recipes = []
 
-			// res.body.hits.map((recipe,index)=>{
-			// 	recipes.push(recipe.recipe)	
-			// })
-
-	
-
 			if(!err) {
 
 				res.body.hits.forEach(function(hit){
@@ -64,8 +58,8 @@ export default class Food extends React.Component {
 					<div className="col-md-6">
 						<div className="row">
 						<div className="col-md-6">
-							<input placeholder="Look up ingredients" onChange={this.saveIngredients} value={this.state.ingredients}/>
-							<p>Search up to 3 ingredients, separated by commas</p>
+							<input className="recipe-lookup" placeholder="Look up ingredients" onChange={this.saveIngredients} value={this.state.ingredients}/>
+							<p className="caption-limit-ingredients">Search up to 3 ingredients, separated by commas</p>
 						</div>
 						<div className="col-md-6"></div>
 							<button className="btn btn-primary" onClick={this.getRecipe}>Log Recipe</button>

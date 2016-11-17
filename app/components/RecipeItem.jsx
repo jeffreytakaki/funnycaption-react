@@ -4,17 +4,13 @@ export default class RecipeItem extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			uid: '',
-			displayName: '',
-			email: '',
-			loggedIn: 'Sign In',
-			savedRecipes:[{
-				image: '',
-				title: '',
-				url: '',
-				recipe_id: '',
-
-			}]
+			user: {
+				uid: '',
+				displayName: '',
+				email: '',
+				loggedIn: 'Sign In',
+				savedRecipes:[]
+			}
 		}
 
 		this.saveRecipe = this.saveRecipe.bind(this)
@@ -40,9 +36,11 @@ export default class RecipeItem extends React.Component {
 		saveRecipeArray.push(saveObject)
 
 		// push saveRecipeArray to state
-		this.setState({
-			saveRecipe:saveRecipeArray
-		})
+		// this.setState({
+		// 	user: {
+		// 		saveRecipe:saveRecipeArray
+		// 	}
+		// })
 		
 		this.props.saveRecipe(saveObject)
 	}

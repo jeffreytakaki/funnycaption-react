@@ -2,36 +2,40 @@ import React from 'react'
 import Nav from './Nav.jsx'
 import Food from '../components/Food.jsx'
 import RecipeItem from '../components/RecipeItem.jsx'
+import SavedRecipes from '../components/SavedRecipes.jsx'
+import SavedItems from '../components/SavedItems.jsx'
+
 
 export default class App extends React.Component {
 
 	constructor(props) {
 		super(props)
 		this.state = {
-			recipes: []
+			recipes: [],
+			user: { 
+                uid: '',
+                photoURL: '',
+                displayName: '',
+                email: '',
+                savedRecipes: []
+            }
 		}
 
 		this.renderRecipeItem = this.renderRecipeItem.bind(this)
 		this.saveRecipe = this.saveRecipe.bind(this)
-		
-	}
-
-	componentWillMount() {
-		var config = {
-			apiKey: "AIzaSyC1I-eTkRWrTekurEs2tepEMxlaIQUTNkk",
-			authDomain: "save-recipe.firebaseapp.com",
-			databaseURL: "https://save-recipe.firebaseio.com",
-			storageBucket: "save-recipe.appspot.com",
-			messagingSenderId: "348011917644"
-		};
-		firebase.initializeApp(config);
-		var database = firebase.database();
 	}
 
 	renderRecipeItem(recipes) {
 		// clear recipes
 		this.state = {
-			recipes: []
+			recipes: [],
+			user: { 
+                uid: '',
+                photoURL: '',
+                displayName: '',
+                email: '',
+                savedRecipes: []
+            }
 		}
 
 		this.setState({
@@ -40,18 +44,33 @@ export default class App extends React.Component {
 	}
 
 	saveRecipe(saveObject) {
-		// can i refactor this?
+		let self = this
+		let database = this.props.database
+		let uid = this.props.user.uid || 'no-authentication'
 
-		database.ref('save-recipe/').push({
+		// why props not state?
+		// if(uid != "no-authentication") {
+		this.setState({
+			user: {
+				savedRecipes: this.state.user.savedRecipes.concat(saveObject)
+			}
+		})
+
+		database.ref('save-recipe/' + uid).push({
 			image: saveObject.image,
 			title: saveObject.title,
 			url: saveObject.url,
 			recipe_id: saveObject.recipe_id,
-		});		
+		})
+		// } else {
+		// 	alert("Please sign in before added recipes!")
+		// }		
 
 	}
 
 	render() {
+
+
 		let recipesitems = this.state.recipes.map((recipe, index) => {
 			var setbreak;
 			return (
@@ -64,16 +83,38 @@ export default class App extends React.Component {
 					saveRecipe={this.saveRecipe}/>
 			)
 		})
+
+		let saveditems = this.props.user.savedRecipes.map((recipe, index) => {
+			var setbreak ="";
+			return (
+					<SavedItems 
+					key = {index}
+					image = {recipe.image}
+					title = {recipe.label}
+					recipe_id = {recipe.label} 
+					url = {recipe.url}
+					saveRecipe={this.saveRecipe}/>
+			)
+		})
+
+
 				
 		return (
-			<div>
-				<Food renderRecipeItem={this.renderRecipeItem}/>
-
+			
 				<div className="container">
-
-				{recipesitems}
+					<div className="row">
+						<div className="col-md-9">
+							<Food renderRecipeItem={this.renderRecipeItem}/>
+							<div className="container">
+								{recipesitems}
+							</div>	
+						</div>
+						<div className="col-md-3">
+							{saveditems}
+						</div>	
+					</div>	
 				</div>	
-			</div>
+			
 		)
 	}
 
