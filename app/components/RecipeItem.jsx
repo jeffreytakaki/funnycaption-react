@@ -1,4 +1,5 @@
 import React from 'react'
+import {makeKey} from '../utils/makeKey.jsx'
 
 export default class RecipeItem extends React.Component {
 	constructor(props) {
@@ -28,7 +29,8 @@ export default class RecipeItem extends React.Component {
 			image: target.dataset.image,
 			title: target.dataset.title,
 			url: target.dataset.url,
-			recipe_id: target.dataset.recipe_id,
+			recipe_id: makeKey(target.dataset.recipe_id),
+			completed: false
 		}
 
 		// add saveObject to array
@@ -50,13 +52,13 @@ export default class RecipeItem extends React.Component {
 		
 		return (
 			<div className="row" data-recipe_id={this.props.recipe_id} data-title={this.props.title} data-url={this.props.url} data-image={this.props.image}>
-				<div className="col-md-4">
+				<div className="col-md-3">
 					<a href={this.props.url}> <img src={this.props.image} alt={this.props.title} /> </a>
 				</div>
-				<div className="col-md-4">
+				<div className="col-md-6">
 					<h3>{this.props.title}</h3>
 				</div>
-				<div className="col-md-4">
+				<div className="col-md-3">
 					<div className="row">
 						<div className="col-md-12">
 							<button onClick={this.saveRecipe} className="btn btn-info">Save Recipe</button>

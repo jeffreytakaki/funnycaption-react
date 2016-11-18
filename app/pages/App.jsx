@@ -17,12 +17,16 @@ export default class App extends React.Component {
                 photoURL: '',
                 displayName: '',
                 email: '',
-                savedRecipes: []
+                savedRecipes: this.props.user.savedRecipes || []
             }
 		}
 
 		this.renderRecipeItem = this.renderRecipeItem.bind(this)
 		this.saveRecipe = this.saveRecipe.bind(this)
+		this.saveRecipe = this.saveRecipe.bind(this)
+		this.deleteRecipe = this.deleteRecipe.bind(this)
+		this.completedRecipe = this.completedRecipe.bind(this)
+
 	}
 
 	renderRecipeItem(recipes) {
@@ -49,30 +53,52 @@ export default class App extends React.Component {
 		let uid = this.props.user.uid || 'no-authentication'
 
 		// why props not state?
-		// if(uid != "no-authentication") {
+		if(uid != "no-authentication") {
+			this.setState({
+				user: {
+					savedRecipes: this.state.user.savedRecipes.concat(saveObject)
+				}
+			})
+
+			database.ref('save-recipe/' + uid).push({
+				image: saveObject.image,
+				title: saveObject.title,
+				url: saveObject.url,
+				recipe_id: saveObject.recipe_id,
+			})
+		} else {
+			alert("Please sign in before added recipes!")
+		}		
+
+	}
+
+	deleteRecipe(deleteObj) {
+		let firebase = this.props.firebase
+		let uid = this.props.user.uid
+
+
+
+		var newData = this.state.user.savedRecipes.slice(); //copy array
+		newData.splice(deleteObj.recipe_key, 1); //remove element
 		this.setState({
 			user: {
-				savedRecipes: this.state.user.savedRecipes.concat(saveObject)
+				savedRecipes: newData
 			}
-		})
+		}) //update state
 
-		database.ref('save-recipe/' + uid).push({
-			image: saveObject.image,
-			title: saveObject.title,
-			url: saveObject.url,
-			recipe_id: saveObject.recipe_id,
-		})
-		// } else {
-		// 	alert("Please sign in before added recipes!")
-		// }		
+		firebase.database().ref('save-recipe/'+ uid +"/"+ deleteObj.recipe_id).remove()
+		console.log('========')
+		console.log("delete recipe")
+	}
 
+	completedRecipe(event) {
+		console.log('========')
+		console.log("completed recipe")
 	}
 
 	render() {
 
-
 		let recipesitems = this.state.recipes.map((recipe, index) => {
-			var setbreak;
 			return (
 					<RecipeItem 
 					key = {index}
@@ -84,16 +110,16 @@ export default class App extends React.Component {
 			)
 		})
 
-		let saveditems = this.props.user.savedRecipes.map((recipe, index) => {
-			var setbreak ="";
+		let saveditems = this.state.user.savedRecipes.map((recipe, index) => {
 			return (
 					<SavedItems 
-					key = {index}
+					recipe_key = {index}
 					image = {recipe.image}
-					title = {recipe.label}
-					recipe_id = {recipe.label} 
+					title = {recipe.title}
+					recipe_id = {recipe.recipe_id} 
 					url = {recipe.url}
-					saveRecipe={this.saveRecipe}/>
+					deleteRecipe={this.deleteRecipe}
+					completedRecipe={this.completedRecipe}/>
 			)
 		})
 
@@ -107,10 +133,10 @@ export default class App extends React.Component {
 						</div>	
 					</div>
 					<div className="row">
-						<div className="col-md-9">
+						<div className="col-md-8">
 							{recipesitems}
 						</div>
-						<div className="col-md-3">
+						<div className="col-md-4">
 							{saveditems}
 						</div>	
 					</div>		

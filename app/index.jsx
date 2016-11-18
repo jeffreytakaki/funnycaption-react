@@ -7,6 +7,8 @@ import Nav from './pages/Nav.jsx'
 import App from './pages/App.jsx'
 import Show from './pages/Show.jsx'
 
+
+
 class Home extends React.Component {
     constructor(props) {
         super(props)
@@ -101,6 +103,9 @@ class Home extends React.Component {
             }
         })
 
+        console.log("=====")
+        console.log(this.state)
+
 
 
     }
@@ -111,24 +116,38 @@ class Home extends React.Component {
         let saved =[]
         
         firebase.database().ref('/save-recipe/' + uid).once('value').then(function(snapshot) {
-            snapshot.forEach(function(data){      
-                saved.push(data.val())
-            })
+            
+            // let getsnap = snapshot.val()
+            // getsnap.forEach(function(data,index){      
+            //     console.log(index)
+            //     saved.push(data.val())
+            // })
+
+            let getsnap = snapshot.val()
+            for (var k in getsnap){
+                if (getsnap.hasOwnProperty(k)) {
+                    let obj = {
+                        recipe_id: k,
+                        image: getsnap[k].image,
+                        title: getsnap[k].title,
+                        url: getsnap[k].url
+                    }
+                    saved.push(obj)
+                }
+            }
         })
+        
         return saved 
     }
 
-  render () {
-            console.log('======')
-        console.log(this.state)
-        console.log('======')
-    return (
-    	<div>
-	    	<Nav firebase={this.state.firebase} database={this.state.database} user={this.state.user} toggleSignIn={this.toggleSignIn}/>
-	    	<App firebase={this.state.firebase} database={this.state.database} user={this.state.user} />
-    	</div>
-    )
-  }
+    render () {
+        return (
+            <div>
+                <Nav firebase={this.state.firebase} database={this.state.database} user={this.state.user} toggleSignIn={this.toggleSignIn}/>
+                <App firebase={this.state.firebase} database={this.state.database} user={this.state.user} />
+            </div>
+        )
+    }
 }
 
 
